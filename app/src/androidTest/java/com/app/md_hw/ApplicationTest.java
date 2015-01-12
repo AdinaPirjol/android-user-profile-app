@@ -1,4 +1,4 @@
-package adina.mobiledevices_hw;
+package com.app.md_hw;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
