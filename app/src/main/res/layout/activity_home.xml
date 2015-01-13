@@ -58,4 +58,11 @@
         android:layout_toEndOf="@+id/textTemperature"
         android:layout_alignBottom="@+id/textTemperature" />
 
+    <Button
+        android:id="@+id/changePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Change Password" />
+
 </RelativeLayout>
