@@ -1,5 +1,6 @@
 package com.app.md_hw;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ public class HomeActivity extends ActionBarActivity {
     private TextView description;
     private TextView welcome;
     private ImageView imgView;
+    private Button changePassword;
 
 
     @Override
@@ -43,8 +47,19 @@ public class HomeActivity extends ActionBarActivity {
         welcome = (TextView) findViewById(R.id.textWelcome);
         welcome.setText("Welcome, " + struser + "!");
 
-        // Locate TextView in welcome.MainActivityxml
-        //TextView txtuser = (TextView) findViewById(R.id.txtuser);
+        changePassword = (Button) findViewById(R.id.changePassword);
+
+        changePassword.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(
+                        HomeActivity.this,
+                        ChangePasswordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         String city = "Bucharest,RO";
 
