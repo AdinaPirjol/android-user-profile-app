@@ -3,37 +3,59 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".HomeActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.app.md_hw.HomeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/home_welcome"
+        android:id="@+id/textWelcome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="6dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textLocation"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textWelcome"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDescription"
+        android:layout_below="@+id/textLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textTemperature"
+        android:layout_below="@+id/textDescription"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textDate"
-        android:layout_below="@+id/textLocation"
-        android:layout_alignLeft="@+id/textLocation"
-        android:layout_alignStart="@+id/textLocation"
-        android:layout_marginTop="29dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textTemperature"
-        android:layout_below="@+id/textDate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp" />
+        android:layout_below="@+id/textTemperature"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_below="@+id/textTemperature"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp" />
+        android:layout_alignTop="@+id/textTemperature"
+        android:layout_toRightOf="@+id/textTemperature"
+        android:layout_toEndOf="@+id/textTemperature"
+        android:layout_alignBottom="@+id/textTemperature" />
+
 </RelativeLayout>

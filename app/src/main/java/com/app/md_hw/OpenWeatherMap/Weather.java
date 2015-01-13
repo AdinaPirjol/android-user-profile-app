@@ -1,5 +1,8 @@
 package com.app.md_hw.OpenWeatherMap;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.util.Date;
 
 /**
@@ -8,7 +11,8 @@ import java.util.Date;
 public class Weather {
     private String city;
     private String country;
-    private float temperature;
+    private String description;
+    private double temperature;
     private Conditions condition;
     private Date date;
     private String icon;
@@ -27,7 +31,7 @@ public class Weather {
         return date;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
@@ -35,6 +39,9 @@ public class Weather {
         return condition;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
     public void setCity(String city) {
         this.city = city;
@@ -44,7 +51,7 @@ public class Weather {
         this.country = country;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -62,5 +69,19 @@ public class Weather {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /* Method to test input json functionality */
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append("Location: " + this.getCity() + ", " + this.getCountry());
+        s.append("Temperature: " + this.getTemperature());
+//        s.append("Condition: " + this.getCondition().toString());
+//        s.append("Date: " + this.getDate().toString());
+        return s.toString();
     }
 }
