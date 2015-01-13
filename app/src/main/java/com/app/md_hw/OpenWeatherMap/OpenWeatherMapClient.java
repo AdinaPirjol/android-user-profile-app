@@ -7,10 +7,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 import com.app.md_hw.OpenWeatherMap.Weather;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,36 +25,24 @@ public class OpenWeatherMapClient {
     public String getWeatherMessage(String location) throws IOException {
         HttpURLConnection conn = null;
         InputStream input = null;
-        try {
-            conn = (HttpURLConnection) (new URL(URL + location)).openConnection();
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.connect();
+        conn = (HttpURLConnection) (new URL(URL + location)).openConnection();
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        conn.connect();
 
-            input = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            StringBuilder data = new StringBuilder();
-            String line = br.readLine();
-            while((line = br.readLine()) != null){
-                data.append(line);
-            }
-            input.close();
-            br.close();
-            conn.disconnect();
-
-            return data.toString();
-
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        } catch(IOException io){
-            io.printStackTrace();
-        } finally {
-            input.close();
-            conn.disconnect();
+        input = conn.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(input));
+        StringBuilder data = new StringBuilder();
+        String line = "";
+        while((line = br.readLine()) != null){
+            data.append(line);
         }
+        input.close();
+        br.close();
+        conn.disconnect();
 
-        return null;
+        return data.toString();
     }
 
     public Weather parseWeatherMessage(String data) throws JSONException {
@@ -62,13 +52,17 @@ public class OpenWeatherMapClient {
 
         JSONObject COORD = json.getJSONObject("coord");
         JSONObject SYS = json.getJSONObject("sys");
-        JSONObject WEATHER = json.getJSONObject("weather");
+        JSONArray WEATHER_ARR = json.getJSONArray("weather");
+        JSONObject WEATHER = WEATHER_ARR.getJSONObject(0);
         JSONObject MAIN = json.getJSONObject("main");
 
         weather.setCity(json.getString("name"));
         weather.setCountry(SYS.getString("country"));
 
-        weather.setTemperature((float) MAIN.getDouble("temp"));
+        // temperature is set in Fahrenheit -> convert to Celsius
+        weather.setTemperature(Math.round(MAIN.getDouble("temp") - 273.15));
+
+        weather.setDescription(WEATHER.getString("description"));
 
         Weather.Conditions condition = null;
 
@@ -90,7 +84,7 @@ public class OpenWeatherMapClient {
         weather.setCondition(condition);
         weather.setIcon(WEATHER.getString("icon"));
 
-        Date date = new Date((long)Double.parseDouble(json.getString("dt")));
+        Date date = new Date((long)Double.parseDouble(json.getString("dt"))*1000);
         weather.setDate(date);
 
         return weather;

@@ -5,21 +5,29 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.md_hw.OpenWeatherMap.OpenWeatherMapClient;
 import com.app.md_hw.OpenWeatherMap.Weather;
 
+import org.json.JSONException;
+
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.UnknownHostException;
 
 
 public class HomeActivity extends ActionBarActivity {
     private TextView location;
     private TextView date;
     private TextView temp;
+    private TextView description;
     private ImageView imgView;
 
 
@@ -33,6 +41,7 @@ public class HomeActivity extends ActionBarActivity {
         location = (TextView) findViewById(R.id.textLocation);
         date = (TextView) findViewById(R.id.textDate);
         temp = (TextView) findViewById(R.id.textTemperature);
+        description = (TextView) findViewById(R.id.textDescription);
         imgView = (ImageView) findViewById(R.id.imageView);
 
         WeatherAsyncTask task = new WeatherAsyncTask();
@@ -62,18 +71,23 @@ public class HomeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    // <String, Void, Weather> = <Params, Progress, Result>
     private class WeatherAsyncTask extends AsyncTask<String, Void, Weather> {
 
         @Override
         protected Weather doInBackground(String... params) {
             Weather weather = new Weather();
             String data = null;
+            OpenWeatherMapClient client = new OpenWeatherMapClient();
             try {
-                data = (new OpenWeatherMapClient()).getWeatherMessage(params[0]);
-                weather = (new OpenWeatherMapClient()).parseWeatherMessage(data);
-            }catch(Exception e){
-                e.printStackTrace();
+                data = client.getWeatherMessage(params[0]);
+                weather = client.parseWeatherMessage(data);
+            }catch(UnknownHostException e){
+                Toast.makeText(getApplicationContext(), "The weather api could not be reached", Toast.LENGTH_LONG);
+            }catch(IOException e){
+                Toast.makeText(getApplicationContext(), "Could not read weather response from server", Toast.LENGTH_LONG);
+            }catch(JSONException e){
+                Toast.makeText(getApplicationContext(), "Could not read weather response", Toast.LENGTH_LONG);
             }
 
             return weather;
@@ -82,16 +96,19 @@ public class HomeActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Weather weather){
             super.onPostExecute(weather);
-            switch(weather.getCondition()){
-                case CLEAR:
-                    imgView.setImageResource(R.drawable.clear);
-                    break;
-                default:
-                    break;
-            }
+//            switch(weather.getCondition()){
+//                case CLEAR:
+//                    imgView.setImageResource(R.drawable.clear);
+//                    break;
+//                default:
+//                    break;
+//            }
+
+            imgView.setImageResource(R.drawable.weather);
 
             location.setText(weather.getCity() + ", " + weather.getCountry());
-            temp.setText(weather.getTemperature()+"Farhr");
+            description.setText(weather.getDescription());
+            temp.setText(weather.getTemperature() + "°C");
             date.setText(weather.getDate().toString());
         }
     }
