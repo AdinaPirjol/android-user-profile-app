@@ -35,6 +35,7 @@ public class HomeActivity extends ActionBarActivity {
     private TextView welcome;
     private ImageView imgView;
     private Button changePassword;
+    private Button interests;
 
 
     @Override
@@ -56,6 +57,20 @@ public class HomeActivity extends ActionBarActivity {
                 Intent intent = new Intent(
                         HomeActivity.this,
                         ChangePasswordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        interests = (Button) findViewById(R.id.interests);
+
+        interests.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(
+                        HomeActivity.this,
+                        InterestsActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -65,4 +65,13 @@
         android:layout_centerInParent="true"
         android:text="Change Password" />
 
+    <Button
+        android:id="@+id/interests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Interests"
+        android:layout_below="@+id/changePassword"
+        android:layout_alignLeft="@+id/changePassword"
+        android:layout_alignStart="@+id/changePassword" />
+
 </RelativeLayout>
