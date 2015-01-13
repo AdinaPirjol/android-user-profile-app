@@ -1,101 +1,122 @@
 package com.app.md_hw;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+public class LoginSignupActivity extends Activity {
+    // Declare Variables
+    Button loginbutton;
+    Button signup;
+    String usernametxt;
+    String passwordtxt;
+    EditText password;
+    EditText username;
 
-
-public class LoginActivity extends ActionBarActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    /** Called when the activity is first created. */
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        // Enable Local Datastore
-        // for when there is no available internet connection
-        Parse.enableLocalDatastore(this);
+
+        // Enable Local Datastore.
 
         Parse.initialize(this, "pizEYCj8zYu8dcQ9AU7DxfRqGjx6Lt9Ie2aHV8Rn", "5e9eoQeZiL8yKntAe9tRmRsp3Xe7l9fLShGwoz7E");
 
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("foo", "bar");
         testObject.saveInBackground();
-    }
+        // Get the view from main.xml
+        setContentView(R.layout.loginsignup);
+        // Locate EditTexts in main.xml
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
 
+        // Locate Buttons in main.xml
+        loginbutton = (Button) findViewById(R.id.login);
+        signup = (Button) findViewById(R.id.signup);
 
-    private void login(View view){
-        if(isNetworkConnected()) {
-            EditText editUsername = (EditText) findViewById(R.id.editUsername);
-            EditText editPassword = (EditText) findViewById(R.id.editPassword);
+        // Login Button Click Listener
+        loginbutton.setOnClickListener(new OnClickListener() {
 
-            String username = editUsername.getText().toString().trim();
-            String password = editPassword.getText().toString().trim();
+            public void onClick(View arg0) {
+                // Retrieve the text entered from the EditText
+                usernametxt = username.getText().toString();
+                passwordtxt = password.getText().toString();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this.getApplicationContext(), "Username and/or password are null!", Toast.LENGTH_SHORT);
-            } else {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("UserCredentials");
-
-                ParseObject credentials = new ParseObject("UserCredentials");
-                credentials.add("username", username);
-                credentials.add("password", password);
-
-//                query.findInBackground();
+                // Send data to Parse.com for verification
+                ParseUser.logInInBackground(usernametxt, passwordtxt,
+                        new LogInCallback() {
+                            public void done(ParseUser user, ParseException e) {
+                                if (user != null) {
+                                    // If user exist and authenticated, send user to Welcome.class
+                                    Intent intent = new Intent(
+                                            LoginSignupActivity.this,
+                                            Welcome.class);
+                                    startActivity(intent);
+                                    Toast.makeText(getApplicationContext(),
+                                            "Successfully Logged in",
+                                            Toast.LENGTH_LONG).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            "No such user exist, please signup",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
             }
-        } else {
-            Toast.makeText(this.getApplicationContext(), "Username and/or password are null!", Toast.LENGTH_SHORT);
-        }
-    }
+        });
+        // Sign up Button Click Listener
+        signup.setOnClickListener(new OnClickListener() {
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        if (info == null) {
-            // There are no active networks.
-            return false;
-        } else
-            return true;
-    }
+            public void onClick(View arg0) {
+                // Retrieve the text entered from the EditText
+                usernametxt = username.getText().toString();
+                passwordtxt = password.getText().toString();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
+                // Force user to fill up the form
+                if (usernametxt.equals("") && passwordtxt.equals("")) {
+                    Toast.makeText(getApplicationContext(),
+                            "Please complete the sign up form",
+                            Toast.LENGTH_LONG).show();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidMainfofest.xml.
-        int id = item.getItemId();
+                } else {
+                    // Save new user data into Parse.com Data Storage
+                    ParseUser user = new ParseUser();
+                    user.setUsername(usernametxt);
+                    user.setPassword(passwordtxt);
+                    user.signUpInBackground(new SignUpCallback() {
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                // Show a simple Toast message upon successful registration
+                                Toast.makeText(getApplicationContext(),
+                                        "Successfully Signed up, please log in.",
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Sign up Error", Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        }
+                    });
+                }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+            }
+        });
 
-        return super.onOptionsItemSelected(item);
     }
 }
+
