@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.app.md_hw.OpenWeatherMap.OpenWeatherMapClient;
 import com.app.md_hw.OpenWeatherMap.Weather;
+import com.parse.ParseUser;
 
 import org.json.JSONException;
 
@@ -28,6 +29,7 @@ public class HomeActivity extends ActionBarActivity {
     private TextView date;
     private TextView temp;
     private TextView description;
+    private TextView welcome;
     private ImageView imgView;
 
 
@@ -35,6 +37,14 @@ public class HomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        String struser = currentUser.getUsername().toString();
+        welcome = (TextView) findViewById(R.id.textWelcome);
+        welcome.setText("Welcome, " + struser + "!");
+
+        // Locate TextView in welcome.MainActivityxml
+        //TextView txtuser = (TextView) findViewById(R.id.txtuser);
 
         String city = "Bucharest,RO";
 

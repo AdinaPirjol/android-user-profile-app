@@ -16,7 +16,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class LoginSignupActivity extends Activity {
+public class LoginActivity extends Activity {
     // Declare Variables
     Button loginbutton;
     Button signup;
@@ -38,7 +38,7 @@ public class LoginSignupActivity extends Activity {
         testObject.put("foo", "bar");
         testObject.saveInBackground();
         // Get the view from main.xml
-        setContentView(R.layout.loginsignup);
+        setContentView(R.layout.activity_login);
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -62,8 +62,8 @@ public class LoginSignupActivity extends Activity {
                                 if (user != null) {
                                     // If user exist and authenticated, send user to Welcome.class
                                     Intent intent = new Intent(
-                                            LoginSignupActivity.this,
-                                            Welcome.class);
+                                            LoginActivity.this,
+                                            HomeActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(getApplicationContext(),
                                             "Successfully Logged in",
