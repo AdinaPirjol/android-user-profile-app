@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.app.md_hw.OpenWeatherMap.OpenWeatherMapClient;
 import com.app.md_hw.OpenWeatherMap.Weather;
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
@@ -25,6 +28,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.List;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -36,6 +41,7 @@ public class HomeActivity extends ActionBarActivity {
     private ImageView imgView;
     private Button changePassword;
     private Button interests;
+    private TextView textInterests;
 
 
     @Override
@@ -44,9 +50,9 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        String struser = currentUser.getUsername().toString();
+        String username = currentUser.getUsername().toString();
         welcome = (TextView) findViewById(R.id.textWelcome);
-        welcome.setText("Welcome, " + struser + "!");
+        welcome.setText("Welcome, " + username + "!");
 
         changePassword = (Button) findViewById(R.id.changePassword);
 
@@ -86,6 +92,29 @@ public class HomeActivity extends ActionBarActivity {
 
         WeatherAsyncTask task = new WeatherAsyncTask();
         task.execute(new String[]{city});
+
+        
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
+        query.whereEqualTo("username", username);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                if (e == null) {
+                    String text = "";
+                    textInterests = (TextView) findViewById(R.id.textInterestsFound);
+                    Toast.makeText(getApplicationContext(), "Interests retrieved successfully", Toast.LENGTH_LONG).show();
+                    for(ParseObject p : parseObjects) {
+                        text = (String) p.get("interests");
+                        textInterests.setText(text);
+                    }
+                    if(text.equals("")){
+                        textInterests.setText("No saved interests found.");
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 

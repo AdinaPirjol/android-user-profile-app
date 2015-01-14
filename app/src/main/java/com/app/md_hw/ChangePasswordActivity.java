@@ -24,18 +24,15 @@ import com.parse.ParseUser;
  * Created by Lau on 13.01.2015.
  */
 public class ChangePasswordActivity extends Activity {
-
-    private EditText editCurrent;
     private EditText editNew;
     private EditText editRetype;
     private Button buttonSaveNewPassword;
-    String currentP, newP, retypeP;
+    String newP, retypeP;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        editCurrent = (EditText) findViewById(R.id.editCurrent);
         editNew = (EditText) findViewById(R.id.editNew);
         editRetype = (EditText) findViewById(R.id.editRetype);
 
@@ -44,36 +41,28 @@ public class ChangePasswordActivity extends Activity {
         // Logout Button Click Listener
         buttonSaveNewPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                currentP = editCurrent.getText().toString().trim();
                 newP = editNew.getText().toString().trim();
                 retypeP = editRetype.getText().toString().trim();
 
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                String currentPassword = (String) currentUser.get("password");
 
-                if(currentP == "" || newP == "" || retypeP == ""){
+                if(newP == "" || retypeP == ""){
                     Toast.makeText(getApplicationContext(), "You didn't complete all fields", Toast.LENGTH_LONG).show();
                 }else{
-                    if(currentPassword.compareTo(currentP) != 0){
-                        Toast.makeText(getApplicationContext(), "Current password is wrong! Try again", Toast.LENGTH_LONG).show();
-                    }else{
-                        if (newP.compareTo(retypeP) != 0) {
-                            Toast.makeText(getApplicationContext(), "New password and retype new password do not match!", Toast.LENGTH_LONG).show();
-                        } else {
-                            if (newP.compareTo(currentP) == 0) {
-                                Toast.makeText(getApplicationContext(), "New password and current password are the same! Password was not changed", Toast.LENGTH_LONG).show();
-                            }
-                            currentUser.setPassword(newP);
-                            currentUser.saveInBackground();
-                            Intent intent = new Intent(
-                                    ChangePasswordActivity.this,
-                                    HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
+                    if (newP.compareTo(retypeP) != 0) {
+                        Toast.makeText(getApplicationContext(), "New password and retype new password do not match!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Password was succesfully changed!", Toast.LENGTH_LONG).show();
+                        currentUser.setPassword(newP);
+                        currentUser.saveInBackground();
+                        Intent intent = new Intent(
+                                ChangePasswordActivity.this,
+                                HomeActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
-            }
-        });
+                }
+            });
     }
 }
