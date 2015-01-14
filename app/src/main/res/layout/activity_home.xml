@@ -64,8 +64,7 @@
         android:layout_height="wrap_content"
         android:text="Change Password"
         android:layout_above="@+id/interests"
-        android:layout_alignRight="@+id/interests"
-        android:layout_alignEnd="@+id/interests" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/interests"
@@ -73,8 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Change Interests"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/textWelcome"
-        android:layout_toEndOf="@+id/textWelcome" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
