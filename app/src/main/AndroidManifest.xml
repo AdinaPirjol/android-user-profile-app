@@ -12,9 +12,18 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomeActivity"
+            android:exported="true"
             android:label="@string/title_activity_home"
+<<<<<<< HEAD
             android:parentActivityName=".LoginActivity"
             android:exported="true">
+=======
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.md_hw.LoginActivity" />
+
+>>>>>>> LoggingIn
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,8 +47,15 @@
         <activity
             android:name=".ChangePasswordActivity"
             android:exported="true"
-            android:label="Change Password"
-            >
+            android:label="Change Password" >
+        </activity>
+        <activity
+            android:name=".InterestsActivity"
+            android:label="@string/title_activity_interests"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.md_hw.HomeActivity" />
         </activity>
     </application>
 
