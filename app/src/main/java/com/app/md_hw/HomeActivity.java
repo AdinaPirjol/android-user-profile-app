@@ -123,11 +123,11 @@ public class HomeActivity extends ActionBarActivity {
                 data = client.getWeatherMessage(params[0]);
                 weather = client.parseWeatherMessage(data);
             }catch(UnknownHostException e){
-                Toast.makeText(getApplicationContext(), "The weather api could not be reached", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "The weather api could not be reached", Toast.LENGTH_LONG).show();
             }catch(IOException e){
-                Toast.makeText(getApplicationContext(), "Could not read weather response from server", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Could not read weather response from server", Toast.LENGTH_LONG).show();
             }catch(JSONException e){
-                Toast.makeText(getApplicationContext(), "Could not read weather response", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Could not read weather response", Toast.LENGTH_LONG).show();
             }
 
             return weather;
@@ -136,13 +136,6 @@ public class HomeActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Weather weather){
             super.onPostExecute(weather);
-//            switch(weather.getCondition()){
-//                case CLEAR:
-//                    imgView.setImageResource(R.drawable.clear);
-//                    break;
-//                default:
-//                    break;
-//            }
 
             imgView.setImageResource(R.drawable.weather);
 

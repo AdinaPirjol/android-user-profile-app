@@ -33,9 +33,11 @@ public class LoginActivity extends Activity {
         Parse.initialize(this, "pizEYCj8zYu8dcQ9AU7DxfRqGjx6Lt9Ie2aHV8Rn", "5e9eoQeZiL8yKntAe9tRmRsp3Xe7l9fLShGwoz7E");
 
         // testing connection with parse.com
+        /*
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("foo", "bar");
         testObject.saveInBackground();
+        */
 
         // Get the view from main.xml
         setContentView(R.layout.activity_login);
@@ -60,7 +62,7 @@ public class LoginActivity extends Activity {
                         new LogInCallback() {
                             public void done(ParseUser user, ParseException e) {
                                 if (user != null) {
-                                    // If user exist and authenticated, send user to Welcome.class
+                                    // If user exist and authenticated, send user to HomeActivity
                                     Intent intent = new Intent(
                                             LoginActivity.this,
                                             HomeActivity.class);

@@ -25,36 +25,55 @@ import com.parse.ParseUser;
  */
 public class ChangePasswordActivity extends Activity {
 
-    private EditText ChangePassword;
-    private Button SaveNewPassword;
-    String changePasswordText;
+    private EditText editCurrent;
+    private EditText editNew;
+    private EditText editRetype;
+    private Button buttonSaveNewPassword;
+    String currentP, newP, retypeP;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        ChangePassword = (EditText) findViewById(R.id.ChangePassword);
+        editCurrent = (EditText) findViewById(R.id.editCurrent);
+        editNew = (EditText) findViewById(R.id.editNew);
+        editRetype = (EditText) findViewById(R.id.editRetype);
 
-
-        SaveNewPassword = (Button) findViewById(R.id.saveNewPassword);
+        buttonSaveNewPassword = (Button) findViewById(R.id.buttonSaveNewPassword);
 
         // Logout Button Click Listener
-        SaveNewPassword.setOnClickListener(new View.OnClickListener() {
-
+        buttonSaveNewPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                changePasswordText = ChangePassword.getText().toString();
+                currentP = editCurrent.getText().toString().trim();
+                newP = editNew.getText().toString().trim();
+                retypeP = editRetype.getText().toString().trim();
+
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                currentUser.setPassword(changePasswordText);
-                currentUser.saveInBackground();
-                Intent intent = new Intent(
-                        ChangePasswordActivity.this,
-                        HomeActivity.class);
-                startActivity(intent);
-                finish();
+                String currentPassword = (String) currentUser.get("password");
+
+                if(currentP == "" || newP == "" || retypeP == ""){
+                    Toast.makeText(getApplicationContext(), "You didn't complete all fields", Toast.LENGTH_LONG).show();
+                }else{
+                    if(currentPassword.compareTo(currentP) != 0){
+                        Toast.makeText(getApplicationContext(), "Current password is wrong! Try again", Toast.LENGTH_LONG).show();
+                    }else{
+                        if (newP.compareTo(retypeP) != 0) {
+                            Toast.makeText(getApplicationContext(), "New password and retype new password do not match!", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (newP.compareTo(currentP) == 0) {
+                                Toast.makeText(getApplicationContext(), "New password and current password are the same! Password was not changed", Toast.LENGTH_LONG).show();
+                            }
+                            currentUser.setPassword(newP);
+                            currentUser.saveInBackground();
+                            Intent intent = new Intent(
+                                    ChangePasswordActivity.this,
+                                    HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                }
             }
         });
-
-
-
     }
 }
