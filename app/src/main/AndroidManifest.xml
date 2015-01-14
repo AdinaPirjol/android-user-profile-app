@@ -15,16 +15,8 @@
             android:exported="true"
             android:label="@string/title_activity_home"
             android:parentActivityName=".LoginActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.app.md_hw.LoginActivity" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -34,15 +26,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
         </activity>
+
         <activity
             android:name=".ChangePasswordActivity"
             android:exported="true"
             android:label="Change Password" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.md_hw.HomeActivity" />
         </activity>
+
         <activity
             android:name=".InterestsActivity"
             android:label="@string/title_activity_interests"
