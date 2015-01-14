@@ -14,16 +14,11 @@
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
-<<<<<<< HEAD
-            android:parentActivityName=".LoginActivity"
-            android:exported="true">
-=======
             android:parentActivityName=".LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.app.md_hw.LoginActivity" />
 
->>>>>>> LoggingIn
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
