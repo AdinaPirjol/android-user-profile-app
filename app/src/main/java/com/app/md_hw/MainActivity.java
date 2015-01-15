@@ -28,12 +28,12 @@ public class MainActivity extends Activity {
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                // Send logged in users to Welcome.class
+                // Send logged in users to HomeActivity
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             } else {
-                // Send user to LoginSignupActivity.class
+                // Send user to LoginSignupActivity
                 Intent intent = new Intent(MainActivity.this,
                         LoginActivity.class);
                 startActivity(intent);

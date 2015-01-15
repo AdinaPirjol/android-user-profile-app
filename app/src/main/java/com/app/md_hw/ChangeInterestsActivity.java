@@ -59,7 +59,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
 
                     Intent intent = new Intent(
                             ChangeInterestsActivity.this,
-                            HomeActivity.class);
+                            ViewInterestsActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -135,13 +135,13 @@ public class ChangeInterestsActivity extends ActionBarActivity {
             JSONObject music = new JSONObject();
 
             if(music1.isChecked()){
-                music.put("titanic", true);
+                music.put("hard-rock", true);
             }
             if(music2.isChecked()){
-                music.put("hunger-games", true);
+                music.put("pop", true);
             }
             if(music3.isChecked()){
-                music.put("casablanca", true);
+                music.put("dance", true);
             }
             jsonObject.put("music", music);
         }
@@ -152,13 +152,13 @@ public class ChangeInterestsActivity extends ActionBarActivity {
             JSONObject movies = new JSONObject();
 
             if(movies1.isChecked()){
-                movies.put("hard-rock", true);
+                movies.put("titanic", true);
             }
             if(movies2.isChecked()){
-                movies.put("pop", true);
+                movies.put("hunger-games", true);
             }
             if(movies3.isChecked()){
-                movies.put("dance", true);
+                movies.put("casablanca", true);
             }
             jsonObject.put("movies", movies);
         }
@@ -207,7 +207,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_interests, menu);
+        getMenuInflater().inflate(R.menu.menu_view_interests, menu);
         return true;
     }
 

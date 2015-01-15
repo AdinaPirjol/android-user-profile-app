@@ -10,11 +10,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="I&apos;m interested In..."
+        android:text="I&apos;m interested in..."
         android:id="@+id/textTitleInterests"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    
+    <fragment
+        android:id="@+id/fragment_music"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:name="com.app.md_hw.InterestsFragments.MusicFragment"
+        tools:layout="@layout/fragment_music"
+        android:layout_toLeftOf="@+id/fragment_movies"
+        android:layout_toStartOf="@+id/fragment_movies"
+        android:layout_above="@+id/fragment_prog_lang"
+        android:layout_below="@+id/textInterestsLow" />
+
+    <fragment
+        android:id="@+id/fragment_movies"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:name="com.app.md_hw.InterestsFragments.MoviesFragment"
+        tools:layout="@layout/fragment_movies"
+        android:layout_alignTop="@+id/fragment_music"
+        android:layout_toRightOf="@+id/textTitleInterests"
+        android:layout_toEndOf="@+id/textTitleInterests"
+        android:layout_above="@+id/fragment_prog_lang" />
+
+    <fragment
+        android:id="@+id/fragment_prog_lang"
+
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:name="com.app.md_hw.InterestsFragments.ProgrammingLanguagesFragment"
+        tools:layout="@layout/fragment_programming_languages"
+        android:layout_alignEnd="@+id/buttonChangeInterests"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/buttonChangeInterests" />
 
     <Button
         android:layout_width="wrap_content"
@@ -27,8 +63,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewInterests"
+        android:text="Interests:"
+        android:id="@+id/textInterestsLow"
         android:layout_below="@+id/textTitleInterests"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>
