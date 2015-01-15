@@ -8,6 +8,9 @@ import java.util.Date;
 /**
  * Created by nnao9_000 on 1/13/2015.
  */
+
+
+// class that retains information received from the weather api json
 public class Weather {
     private String city;
     private String country;

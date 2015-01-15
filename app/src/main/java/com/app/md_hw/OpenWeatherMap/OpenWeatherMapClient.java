@@ -23,6 +23,7 @@ public class OpenWeatherMapClient {
     private static String URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
     public String getWeatherMessage(String location) throws IOException {
+        // establish connection with the OpenWeatherMap api
         HttpURLConnection conn = null;
         InputStream input = null;
         conn = (HttpURLConnection) (new URL(URL + location)).openConnection();
@@ -31,6 +32,7 @@ public class OpenWeatherMapClient {
         conn.setDoOutput(true);
         conn.connect();
 
+        // and read the input response from the json received
         input = conn.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
         StringBuilder data = new StringBuilder();
@@ -42,9 +44,11 @@ public class OpenWeatherMapClient {
         br.close();
         conn.disconnect();
 
+        // return the string json
         return data.toString();
     }
 
+    // parses the json data and collects useful info for our Weather type objects
     public Weather parseWeatherMessage(String data) throws JSONException {
         Weather weather = new Weather();
 
@@ -84,6 +88,7 @@ public class OpenWeatherMapClient {
         weather.setCondition(condition);
         weather.setIcon(WEATHER.getString("icon"));
 
+        // convert milliseconds to date
         Date date = new Date((long)Double.parseDouble(json.getString("dt"))*1000);
         weather.setDate(date);
 
