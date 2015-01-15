@@ -21,5 +21,7 @@
     <string name="change_password">Change Password</string>
     <string name="title_activity_change_password">Change Password</string>
     <string name="title_activity_view_interests">View Interests</string>
+    <string name="contains_links">http://www.Facebook.com</string>
+    <string name="title_activity_edit_links">EditLinksActivity</string>
 
 </resources>

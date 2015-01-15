@@ -1,12 +1,18 @@
 package com.app.md_hw;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +29,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -34,8 +41,7 @@ public class HomeActivity extends ActionBarActivity {
     private ImageView imgView;
     private Button changePassword;
     private Button interests;
-    private TextView textInterests;
-
+    Button mybtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,71 @@ public class HomeActivity extends ActionBarActivity {
         String username = currentUser.getUsername();
         welcome = (TextView) findViewById(R.id.textWelcome);
         welcome.setText("Welcome, " + username + "!");
+
+        TextView mTextSample1 = (TextView) findViewById(R.id.text1);
+        TextView mTextSample2 = (TextView) findViewById(R.id.text2);
+        TextView mTextSample3 = (TextView) findViewById(R.id.text3);
+
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteLinks");
+        query.whereEqualTo("username", username);
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                if (e == null) {
+                    String text = "";
+                    Toast.makeText(getApplicationContext(), "Links retrieved successfully", Toast.LENGTH_LONG).show();
+                    for(ParseObject p : parseObjects) {
+                        text = p.getString("favorite_links");
+                    }
+
+                    if(!text.equals("")){
+                        text = text.replaceAll("\\[", "").replaceAll("\\]","");
+                        String[] array = text.split(", ");
+
+                        if(array.length>0)
+                        {
+                            TextView mTextSample1 = (TextView) findViewById(R.id.text1);
+                            mTextSample1.setText(array[0]);
+                            Pattern pattern1 = Pattern.compile(array[0]);
+                            Linkify.addLinks(mTextSample1, pattern1, "http://");
+                        }
+                        if(array.length>1)
+                        {
+                            TextView mTextSample2 = (TextView) findViewById(R.id.text2);
+                            mTextSample2.setText(array[1]);
+                            Pattern pattern2 = Pattern.compile(array[1]);
+                            Linkify.addLinks(mTextSample2, pattern2, "http://");
+                        }
+                        if(array.length>2)
+                        {
+                            TextView mTextSample3 = (TextView) findViewById(R.id.text3);
+                            mTextSample3.setText(array[2]);
+                            Pattern pattern3 = Pattern.compile(array[2]);
+                            Linkify.addLinks(mTextSample3, pattern3, "http://");
+                        }
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+        mybtn = (Button)findViewById(R.id.myBtn);
+        mybtn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(
+                        HomeActivity.this,
+                        EditLinksActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         // Create intent for user redirection to the ChangePasswordActivity
         changePassword = (Button) findViewById(R.id.changePassword);

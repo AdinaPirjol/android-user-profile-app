@@ -54,6 +54,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.app.md_hw.HomeActivity" />
         </activity>
+        <activity
+            android:name=".EditLinksActivity"
+            android:label="@string/title_activity_edit_links" >
+        </activity>
     </application>
 
 </manifest>
