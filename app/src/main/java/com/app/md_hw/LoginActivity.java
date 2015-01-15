@@ -101,7 +101,7 @@ public class LoginActivity extends Activity {
                     passwordtxt = password.getText().toString();
 
                     // Force user to fill up the form
-                    if (usernametxt.equals("") && passwordtxt.equals("")) {
+                    if (usernametxt.equals("") || passwordtxt.equals("")) {
                         Toast.makeText(getApplicationContext(),
                                 "Please complete the sign up form",
                                 Toast.LENGTH_LONG).show();
