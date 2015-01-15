@@ -21,75 +21,85 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textLocation"
+        android:layout_marginTop="33dp"
+        android:text="Location"
         android:layout_below="@+id/textWelcome"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/textDescription"
+        android:layout_alignStart="@+id/textDescription" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textDescription"
+        android:text="&quot;Description&quot;"
         android:layout_below="@+id/textLocation"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/textTemperature"
+        android:layout_alignStart="@+id/textTemperature" />
 
     <TextView
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/textTemperature"
+        android:text="temp C"
         android:layout_below="@+id/textDescription"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/textDate"
+        android:layout_alignStart="@+id/textDate" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textDate"
+        android:text="Date"
         android:layout_below="@+id/textTemperature"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignRight="@+id/textWelcome"
+        android:layout_alignEnd="@+id/textWelcome" />
 
     <ImageView
         android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_alignTop="@+id/textTemperature"
-        android:layout_toRightOf="@+id/textTemperature"
-        android:layout_toEndOf="@+id/textTemperature"
-        android:layout_alignBottom="@+id/textTemperature" />
+        android:layout_alignTop="@+id/textLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/textDate"
+        android:layout_toLeftOf="@+id/textLocation"
+        android:layout_toStartOf="@+id/textLocation" />
 
     <Button
         android:id="@+id/changePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Password"
-        android:layout_above="@+id/interests"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/interests"
+        android:id="@+id/buttonInterests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Interests"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:text="View Interests"
+        android:layout_above="@+id/changePassword"
+        android:layout_alignRight="@+id/changePassword"
+        android:layout_alignEnd="@+id/changePassword"
+        android:layout_alignLeft="@+id/changePassword"
+        android:layout_alignStart="@+id/changePassword" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="I&apos;m interested in..."
-        android:id="@+id/textInterests"
+        android:text="Favorite Links"
+        android:id="@+id/textFavLinks"
+        android:layout_marginTop="11dp"
         android:layout_below="@+id/textDate"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="94dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textInterestsFound"
-        android:layout_below="@+id/textInterests"
+        android:layout_below="@+id/textFavLinks"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

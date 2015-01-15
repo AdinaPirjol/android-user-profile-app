@@ -20,13 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class InterestsActivity extends ActionBarActivity {
+public class ChangeInterestsActivity extends ActionBarActivity {
     private CheckBox movies1,movies2,movies3;
     private CheckBox music1,music2,music3;
     private CheckBox prog1,prog2,prog3,prog4;
@@ -59,7 +58,7 @@ public class InterestsActivity extends ActionBarActivity {
                     }
 
                     Intent intent = new Intent(
-                            InterestsActivity.this,
+                            ChangeInterestsActivity.this,
                             HomeActivity.class);
                     startActivity(intent);
                     finish();
@@ -221,7 +220,7 @@ public class InterestsActivity extends ActionBarActivity {
 
         // Respond to the action bar's Up/Home button
         switch(id) {
-            case android.R.id.home:
+            case R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }

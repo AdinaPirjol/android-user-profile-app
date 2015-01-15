@@ -1,14 +1,10 @@
 package com.app.md_hw;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,11 +20,8 @@ import com.parse.ParseUser;
 
 import org.json.JSONException;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.util.List;
 
 
@@ -50,10 +43,11 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        String username = currentUser.getUsername().toString();
+        String username = currentUser.getUsername();
         welcome = (TextView) findViewById(R.id.textWelcome);
         welcome.setText("Welcome, " + username + "!");
 
+        // Create intent for user redirection to the ChangePasswordActivity
         changePassword = (Button) findViewById(R.id.changePassword);
 
         changePassword.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +62,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
-        interests = (Button) findViewById(R.id.interests);
+        interests = (Button) findViewById(R.id.buttonInterests);
 
         interests.setOnClickListener(new View.OnClickListener() {
 
@@ -76,7 +70,7 @@ public class HomeActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(
                         HomeActivity.this,
-                        InterestsActivity.class);
+                        ViewInterestsActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -91,30 +85,7 @@ public class HomeActivity extends ActionBarActivity {
         imgView = (ImageView) findViewById(R.id.imageView);
 
         WeatherAsyncTask task = new WeatherAsyncTask();
-        task.execute(new String[]{city});
-
-        
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
-        query.whereEqualTo("username", username);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                if (e == null) {
-                    String text = "";
-                    textInterests = (TextView) findViewById(R.id.textInterestsFound);
-                    Toast.makeText(getApplicationContext(), "Interests retrieved successfully", Toast.LENGTH_LONG).show();
-                    for(ParseObject p : parseObjects) {
-                        text = (String) p.get("interests");
-                        textInterests.setText(text);
-                    }
-                    if(text.equals("")){
-                        textInterests.setText("No saved interests found.");
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        task.execute(city);
     }
 
 
@@ -131,10 +102,9 @@ public class HomeActivity extends ActionBarActivity {
         @Override
         protected Weather doInBackground(String... params) {
             Weather weather = new Weather();
-            String data = null;
             OpenWeatherMapClient client = new OpenWeatherMapClient();
             try {
-                data = client.getWeatherMessage(params[0]);
+                String data = client.getWeatherMessage(params[0]);
                 weather = client.parseWeatherMessage(data);
             }catch(UnknownHostException e){
                 Toast.makeText(getApplicationContext(), "The weather api could not be reached", Toast.LENGTH_LONG).show();
