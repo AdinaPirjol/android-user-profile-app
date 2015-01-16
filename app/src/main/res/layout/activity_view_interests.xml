@@ -44,7 +44,7 @@
         android:id="@+id/fragment_prog_lang"
 
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:name="com.app.md_hw.InterestsFragments.ProgrammingLanguagesFragment"
         tools:layout="@layout/fragment_programming_languages"
         android:layout_alignEnd="@+id/buttonChangeInterests"
