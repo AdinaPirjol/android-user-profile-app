@@ -46,10 +46,14 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Get the view from activity_home.xml
         setContentView(R.layout.activity_home);
+
+        //get the current user from the database
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         String username = currentUser.getUsername();
+        //display welcome message for current user
         welcome = (TextView) findViewById(R.id.textWelcome);
         welcome.setText("Welcome, " + username + "!");
 
@@ -57,7 +61,7 @@ public class HomeActivity extends ActionBarActivity {
         TextView mTextSample2 = (TextView) findViewById(R.id.text2);
         TextView mTextSample3 = (TextView) findViewById(R.id.text3);
 
-
+        //query for the favorite links from the FavoriteLinks table
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteLinks");
         query.whereEqualTo("username", username);
 
@@ -66,15 +70,16 @@ public class HomeActivity extends ActionBarActivity {
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
                 if (e == null) {
                     String text = "";
+                    //tell the user the links were retrieved successfully
                     Toast.makeText(getApplicationContext(), "Links retrieved successfully", Toast.LENGTH_LONG).show();
                     for(ParseObject p : parseObjects) {
                         text = p.getString("favorite_links");
                     }
-
+                    //trim the array string
                     if(!text.equals("")){
                         text = text.replaceAll("\\[", "").replaceAll("\\]","");
                         String[] array = text.split(", ");
-
+                    //if favorite link1 was edited make a link out of it
                         if(array.length>0)
                         {
                             TextView mTextSample1 = (TextView) findViewById(R.id.text1);
@@ -82,6 +87,7 @@ public class HomeActivity extends ActionBarActivity {
                             Pattern pattern1 = Pattern.compile(array[0]);
                             Linkify.addLinks(mTextSample1, pattern1, "http://");
                         }
+                        //if favorite link2 was edited make a link out of it
                         if(array.length>1)
                         {
                             TextView mTextSample2 = (TextView) findViewById(R.id.text2);
@@ -89,6 +95,7 @@ public class HomeActivity extends ActionBarActivity {
                             Pattern pattern2 = Pattern.compile(array[1]);
                             Linkify.addLinks(mTextSample2, pattern2, "http://");
                         }
+                        //if favorite link3 was edited make a link out of it
                         if(array.length>2)
                         {
                             TextView mTextSample3 = (TextView) findViewById(R.id.text3);
@@ -103,7 +110,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
-
+        //on the press of edit links button send to the EditLinksActivity
         mybtn = (Button)findViewById(R.id.myBtn);
         mybtn.setOnClickListener(new View.OnClickListener() {
 
@@ -121,6 +128,7 @@ public class HomeActivity extends ActionBarActivity {
         // Create intent for user redirection to the ChangePasswordActivity
         changePassword = (Button) findViewById(R.id.changePassword);
 
+        //on the press of edit links button send to the ChangePasswordActivity
         changePassword.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
@@ -135,6 +143,7 @@ public class HomeActivity extends ActionBarActivity {
 
         interests = (Button) findViewById(R.id.buttonInterests);
 
+        //on the press of edit links button send to the ViewInterestsActivity
         interests.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
@@ -146,15 +155,15 @@ public class HomeActivity extends ActionBarActivity {
                 finish();
             }
         });
-
+        //set current city to Bucharest
         String city = "Bucharest,RO";
-
+        //create a layout from the desired input
         location = (TextView) findViewById(R.id.textLocation);
         date = (TextView) findViewById(R.id.textDate);
         temp = (TextView) findViewById(R.id.textTemperature);
         description = (TextView) findViewById(R.id.textDescription);
         imgView = (ImageView) findViewById(R.id.imageView);
-
+        //create a retrieve weather task and execute it asyncronous
         WeatherAsyncTask task = new WeatherAsyncTask();
         task.execute(city);
     }
@@ -172,11 +181,15 @@ public class HomeActivity extends ActionBarActivity {
 
         @Override
         protected Weather doInBackground(String... params) {
+            //create new Weather object
             Weather weather = new Weather();
+            //open the openweathermapclient
             OpenWeatherMapClient client = new OpenWeatherMapClient();
             try {
+                //if all went accordingly, get the weater
                 String data = client.getWeatherMessage(params[0]);
                 weather = client.parseWeatherMessage(data);
+            //else catch an exception
             }catch(UnknownHostException e){
                 Toast.makeText(getApplicationContext(), "The weather api could not be reached", Toast.LENGTH_LONG).show();
             }catch(IOException e){
@@ -190,10 +203,11 @@ public class HomeActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Weather weather){
+            //retrieve the weather after the execution has begun
             super.onPostExecute(weather);
 
             imgView.setImageResource(R.drawable.weather);
-
+            //make the result readable
             location.setText(weather.getCity() + ", " + weather.getCountry());
             description.setText(weather.getDescription());
             temp.setText(weather.getTemperature() + "°C");

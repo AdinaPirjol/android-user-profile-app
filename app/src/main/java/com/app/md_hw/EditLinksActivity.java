@@ -40,12 +40,15 @@ public class EditLinksActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_links);
-
+        //create 3 edittexts
         link1 = (EditText) findViewById(R.id.link1);
         link2 = (EditText) findViewById(R.id.link2);
         link3 = (EditText) findViewById(R.id.link3);
+
+        //get the current user and retrieve the data accordingly
         ParseUser parse = ParseUser.getCurrentUser();
         String pasrseString = parse.getUsername();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteLinks");
         query.whereEqualTo("username", pasrseString);
 
@@ -55,20 +58,23 @@ public class EditLinksActivity extends ActionBarActivity {
                 if (e == null) {
                     String text = "";
                     Toast.makeText(getApplicationContext(), "Links retrieved successfully", Toast.LENGTH_LONG).show();
+                    //get the data from the favorite_links string
                     for(ParseObject p : parseObjects) {
                         text = p.getString("favorite_links");
                     }
-
+                    //trim the string to get rid of [ , ]
                     if(!text.equals("")) {
                         text = text.replaceAll("\\[", "").replaceAll("\\]","");
                         String[] array = text.split(", ");
-
+                        //retrieve the first link if it exist
                         if(array.length>0) {
                             link1.setText(array[0]);
                         }
+                        //retrieve the second link if it exist
                         if(array.length>0){
                             link2.setText(array[1]);
                         }
+                        //retrieve the third link if it exist
                         if(array.length>0){
                             link3.setText(array[2]);
                         }
@@ -79,18 +85,18 @@ public class EditLinksActivity extends ActionBarActivity {
 
         saveLinks.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-
-
+                //get the current user when the button is pressed
                 ParseUser user = ParseUser.getCurrentUser();
                 String username = user.getUsername();
 
                 ParseObject editLinks = new ParseObject("FavoriteLinks");
-
+                //retrieve the newly saved data from the edittexts
                 link1txt = link1.getText().toString();
                 link2txt = link2.getText().toString();
                 link3txt = link3.getText().toString();
+                //store the data in an array and put them in the database
                 String [] favoriteLinks ={link1txt , link2txt , link3txt};
+
                 editLinks.put("username", username);
                 editLinks.put("favorite_links", Arrays.toString(favoriteLinks));
 
@@ -104,17 +110,12 @@ public class EditLinksActivity extends ActionBarActivity {
                         }
                     }
                 });
-
+                //send back to the homepage
                 Intent intent = new Intent(
                         EditLinksActivity.this,
                         HomeActivity.class);
                 startActivity(intent);
                 finish();
-
-
-
-
-
             }
         });
     }

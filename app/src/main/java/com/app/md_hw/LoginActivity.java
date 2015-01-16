@@ -42,9 +42,9 @@ public class LoginActivity extends Activity {
         testObject.saveInBackground();
         */
 
-        // Get the view from main.xml
+        // Get the view from activity_login.xml
         setContentView(R.layout.activity_login);
-        // Locate EditTexts in main.xml
+        // Locate EditTexts in activity_login.xml
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
