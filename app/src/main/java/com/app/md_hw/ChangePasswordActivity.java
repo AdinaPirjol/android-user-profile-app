@@ -20,11 +20,12 @@ import android.widget.Toast;
 
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
+import android.support.v7.app.ActionBarActivity;
 
 /**
  * Created by Lau on 13.01.2015.
  */
-public class ChangePasswordActivity extends Activity {
+public class ChangePasswordActivity extends ActionBarActivity {
     //create 2 edittext fields and a new button
     private EditText editNew;
     private EditText editRetype;
@@ -35,7 +36,7 @@ public class ChangePasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         //set the layout from activity_change_password
         setContentView(R.layout.activity_change_password);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editNew = (EditText) findViewById(R.id.editNew);
         editRetype = (EditText) findViewById(R.id.editRetype);
 
@@ -70,20 +71,15 @@ public class ChangePasswordActivity extends Activity {
             });
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == android.R.id.home) {
 
-        // Respond to the action bar's Up/Home button
-        switch(id) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+            Intent parentIntent1 = new Intent(this,HomeActivity.class);
+            startActivity(parentIntent1);
+            return true;
+
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

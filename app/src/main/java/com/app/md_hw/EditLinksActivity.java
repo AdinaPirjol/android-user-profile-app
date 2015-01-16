@@ -40,6 +40,8 @@ public class EditLinksActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_links);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //create 3 edittexts
         link1 = (EditText) findViewById(R.id.link1);
         link2 = (EditText) findViewById(R.id.link2);
@@ -130,16 +132,14 @@ public class EditLinksActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == android.R.id.home) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+            Intent parentIntent1 = new Intent(this,HomeActivity.class);
+            startActivity(parentIntent1);
             return true;
-        }
 
+        }
         return super.onOptionsItemSelected(item);
     }
 }

@@ -22,7 +22,6 @@
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,7 +43,7 @@
             android:parentActivityName=".HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.app.md_hw.HomeActivity" />
+                android:value="com.app.md_hw.ViewInterestsActivity" />
         </activity>
         <activity
             android:name=".ViewInterestsActivity"
@@ -56,7 +55,11 @@
         </activity>
         <activity
             android:name=".EditLinksActivity"
-            android:label="@string/title_activity_edit_links" >
+            android:label="@string/title_activity_edit_links"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.md_hw.HomeActivity" />
         </activity>
     </application>
 
