@@ -50,6 +50,7 @@ public class ViewInterestsActivity extends ActionBarActivity
         fragmentTransaction.commit();
 
         setContentView(R.layout.activity_view_interests);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         changeInterestsListener();
     }
@@ -79,16 +80,14 @@ public class ViewInterestsActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == android.R.id.home || id == R.id.up) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+            Intent parentIntent1 = new Intent(this,HomeActivity.class);
+            startActivity(parentIntent1);
             return true;
-        }
 
+        }
         return super.onOptionsItemSelected(item);
     }
 
