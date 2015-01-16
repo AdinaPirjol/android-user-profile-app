@@ -34,10 +34,12 @@ public class ChangeInterestsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //set the layout from activity_interests
         setContentView(R.layout.activity_interests);
 
         initializeButtons();
-
+        //retrieve the data if available
         try {
             String interests = readInterests();
             parseInterestsJSON(interests);
@@ -52,11 +54,12 @@ public class ChangeInterestsActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     try {
+                        //call the save method
                         onSave();
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), "An error occured! Interests were not saved!", Toast.LENGTH_LONG).show();
                     }
-
+                    //send to the viewInterestActivity class
                     Intent intent = new Intent(
                             ChangeInterestsActivity.this,
                             ViewInterestsActivity.class);
@@ -68,6 +71,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
     }
 
     public void initializeButtons(){
+        //initialize all the fields
         movies1 = (CheckBox) findViewById(R.id.checkBoxM1);
         movies2 = (CheckBox) findViewById(R.id.checkBoxM2);
         movies3 = (CheckBox) findViewById(R.id.checkBoxM3);
@@ -85,10 +89,11 @@ public class ChangeInterestsActivity extends ActionBarActivity {
     }
 
     public String readInterests() throws IOException {
+        //create a new JSONObject
         JSONObject interests = new JSONObject();
 
         StringBuffer input = new StringBuffer();
-
+        //get the interests from the .txt
         InputStream is = getAssets().open("interests.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
@@ -102,11 +107,11 @@ public class ChangeInterestsActivity extends ActionBarActivity {
 
     public void parseInterestsJSON(String input) throws JSONException {
         JSONObject json = new JSONObject(input);
-
+        //create 3 jsonobjects with specific classes
         JSONObject MUSIC = json.getJSONObject("music");
         JSONObject MOVIES = json.getJSONObject("movies");
         JSONObject PROG_LANG = json.getJSONObject("prog-lang");
-
+        //set id's for buttons to be retrieved easier
         music1.setText(MUSIC.getString("1"));
         music2.setText(MUSIC.getString("2"));
         music3.setText(MUSIC.getString("3"));
@@ -122,13 +127,14 @@ public class ChangeInterestsActivity extends ActionBarActivity {
     }
 
     public void onSave() throws JSONException {
+        //get the current user
         ParseUser currentUser = ParseUser.getCurrentUser();
         String user = currentUser.getUsername();
 
         JSONObject jsonObject = new JSONObject();
 
         boolean choice = false;
-
+        //check if either of the options are checked and put them in the music JSON
         if(music1.isChecked() || music2.isChecked() || music3.isChecked()){
             choice = true;
 
@@ -145,7 +151,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
             }
             jsonObject.put("music", music);
         }
-
+        //check if either of the options are checked and put them in the movies JSON
         if(movies1.isChecked() || movies2.isChecked() || movies3.isChecked()){
             choice = true;
 
@@ -162,7 +168,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
             }
             jsonObject.put("movies", movies);
         }
-
+        //check if either of the options are checked and put them in the prog_lang JSON
         if(prog1.isChecked() || prog2.isChecked() || prog3.isChecked() || prog4.isChecked()){
             choice = true;
             JSONObject prog_lang = new JSONObject();
@@ -187,6 +193,7 @@ public class ChangeInterestsActivity extends ActionBarActivity {
         }
 
         if(choice) {
+            //for the current user, store his/her new interests
             ParseObject obj = new ParseObject("Interests");
             obj.put("username", user);
             obj.put("interests", jsonObject.toString());

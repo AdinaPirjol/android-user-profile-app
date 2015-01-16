@@ -33,10 +33,10 @@ public class ViewInterestsActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //create a new FragmentManager object
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+        //create fragments for music and movies
         MusicFragment music = new MusicFragment();
         MoviesFragment movies = new MoviesFragment();
 
@@ -44,12 +44,12 @@ public class ViewInterestsActivity extends ActionBarActivity
         fragmentTransaction.add(R.id.fragment_movies, movies);
 
         fragmentTransaction.commit();
-
+        //set the current layout to the activity_view_interests.xml
         setContentView(R.layout.activity_view_interests);
-
+        //retrieve the current user
         ParseUser user = ParseUser.getCurrentUser();
         String username = user.getUsername();
-
+        //create a new query by the username to retrieve his current interests
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
         query.whereEqualTo("username", username);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -57,12 +57,15 @@ public class ViewInterestsActivity extends ActionBarActivity
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
                 if (e == null) {
                     String text = "";
+                    //parse the interests into a string
                     TextView interestsLow = (TextView) findViewById(R.id.textInterestsLow);
                     for (ParseObject p : parseObjects) {
                         text = (String) p.get("interests");
                     }
+                    //if there are no interests prompt the user
                     if(text.isEmpty()){
                         interestsLow.setText("No saved interests found.");
+                    //else display them
                     }else{
                         interestsLow.setText("Interests: " + text);
                     }
@@ -81,7 +84,7 @@ public class ViewInterestsActivity extends ActionBarActivity
         buttonChangeInterests.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-
+                //sent to the ChangeInterestsActivityClass
                 Intent intent = new Intent(
                         ViewInterestsActivity.this,
                         ChangeInterestsActivity.class);
