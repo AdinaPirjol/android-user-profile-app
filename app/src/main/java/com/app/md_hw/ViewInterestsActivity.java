@@ -33,48 +33,21 @@ public class ViewInterestsActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //create a new FragmentManager object
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //create fragments for music and movies
+
         MusicFragment music = new MusicFragment();
         MoviesFragment movies = new MoviesFragment();
+        ProgrammingLanguagesFragment prog_lang = new ProgrammingLanguagesFragment();
 
         fragmentTransaction.add(R.id.fragment_music, music);
         fragmentTransaction.add(R.id.fragment_movies, movies);
+        fragmentTransaction.add(R.id.fragment_prog_lang, prog_lang);
 
         fragmentTransaction.commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //set the current layout to the activity_view_interests.xml
+
         setContentView(R.layout.activity_view_interests);
-        //retrieve the current user
-        ParseUser user = ParseUser.getCurrentUser();
-        String username = user.getUsername();
-        //create a new query by the username to retrieve his current interests
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
-        query.whereEqualTo("username", username);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                if (e == null) {
-                    String text = "";
-                    //parse the interests into a string
-                    TextView interestsLow = (TextView) findViewById(R.id.textInterestsLow);
-                    for (ParseObject p : parseObjects) {
-                        text = (String) p.get("interests");
-                    }
-                    //if there are no interests prompt the user
-                    if(text.isEmpty()){
-                        interestsLow.setText("No saved interests found.");
-                    //else display them
-                    }else{
-                        interestsLow.setText("Interests: " + text);
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         changeInterestsListener();
     }
@@ -85,7 +58,7 @@ public class ViewInterestsActivity extends ActionBarActivity
         buttonChangeInterests.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-                //sent to the ChangeInterestsActivityClass
+
                 Intent intent = new Intent(
                         ViewInterestsActivity.this,
                         ChangeInterestsActivity.class);
@@ -102,15 +75,18 @@ public class ViewInterestsActivity extends ActionBarActivity
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == android.R.id.home) {
 
-                Intent parentIntent1 = new Intent(this,HomeActivity.class);
-                startActivity(parentIntent1);
-                return true;
-
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

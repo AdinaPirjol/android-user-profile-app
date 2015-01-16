@@ -1,10 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_fragment_movies"
     tools:context="com.app.md_hw.InterestsFragments.MoviesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="WHY YOU NO LIKE MOVIES?" />
+    <TextView
+        android:layout_width="124dp"
+        android:layout_height="82dp"
+        android:id="@+id/textFragmMovies"
+        android:layout_gravity="left|top" />
 
 </FrameLayout>

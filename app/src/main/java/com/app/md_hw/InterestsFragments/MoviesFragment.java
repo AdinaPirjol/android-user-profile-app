@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,9 @@ import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -75,54 +79,74 @@ public class MoviesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_movies, null);
-
-        LinearLayout linearLayout = new LinearLayout(getActivity().getApplicationContext());
+        final LinearLayout linearLayout = new LinearLayout(getActivity());
 
         ParseUser user = ParseUser.getCurrentUser();
         String username = user.getUsername();
 
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
-//        query.whereEqualTo("username", username);
-//        query.findInBackground(new FindCallback<ParseObject>() {
-//            @Override
-//            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-//                if (e == null) {
-//                    String text = "";
-//
-//                    EditText editText = new EditText(getActivity());
-//                    editText.setId(R.id.movies); //Set id to remove in the future.
-//                    editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT));
-//
-//                    for (ParseObject p : parseObjects) {
-//                        text = (String) p.get("interests");
-//                        editText.setText(text);
-//                    }
-//                    if(text.isEmpty()){
-//                        editText.setText("WHY YOU NO LIKE MOVIES?");
-//                    }else{
-//                        editText.setText("Movies: " + text);
-//                    }
-//                } else {
-//                    Toast.makeText(getActivity().getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
+        query.whereEqualTo("username", username);
 
-        EditText editText = new EditText(getActivity());
-        editText.setId(R.id.movies); //Set id to remove in the future.
-        editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        editText.setText("Hello dfjehfuefkuwifkwekfiwfkjhdhjsd jsdfhysdjf fsdujhsfn dshfhuisfd hsdbfjhbsd");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                if (e == null) {
+                    String text = "";
+                    String m = "WHY YOU NO LIKE MOVIES?";
 
-        try{
-            linearLayout.addView(editText);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+                    EditText editText = new EditText(getActivity());
+                    editText.setId(R.id.movies); //Set id to remove in the future.
+                    editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
 
+                    for (ParseObject p : parseObjects) {
+                        text = (String) p.get("interests");
+                    }
+
+                    try {
+                        JSONObject json_text = new JSONObject(text);
+                        if(json_text.has("movies")) {
+                            m = "Movies:\n";
+                            JSONObject movies = json_text.getJSONObject("movies");
+
+                            if(movies.has("titanic")){
+                                m += "-Titanic\n";
+                            }
+                            if(movies.has("casablanca")){
+                                m+= "-Casablanca\n";
+                            }
+                            if(movies.has("hunger-games")){
+                                m+= "-Hunger Games\n";
+                            }
+                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+
+                    TextView fragmMovies = (TextView) getActivity().findViewById(R.id.textFragmMovies);
+                    fragmMovies.setText(m);
+                    editText.setText(m);
+
+                    try{
+                        linearLayout.addView(editText);
+                        getActivity().addContentView(linearLayout, new
+                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Inflate the layout for this fragment with the programatically added layout
+        // with the appropiate content
+        View v = inflater.inflate(R.layout.fragment_movies, linearLayout);
         return v;
     }
 

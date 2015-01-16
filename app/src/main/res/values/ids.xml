@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="movies" type="id" />
+    <item name="music" type="id" />
+    <item name="prog_lang" type="id" />
 </resources>

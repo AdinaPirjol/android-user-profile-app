@@ -18,6 +18,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -73,54 +76,80 @@ public class ProgrammingLanguagesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_movies, null);
+        final LinearLayout linearLayout = new LinearLayout(getActivity());
 
-        LinearLayout linearLayout = new LinearLayout(getActivity().getApplicationContext());
+        ParseUser user = ParseUser.getCurrentUser();
+        String username = user.getUsername();
 
-//        ParseUser user = ParseUser.getCurrentUser();
-//        String username = user.getUsername();
-//
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
-//        query.whereEqualTo("username", username);
-//        query.findInBackground(new FindCallback<ParseObject>() {
-//            @Override
-//            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-//                if (e == null) {
-//                    String text = "";
-//
-//                    EditText editText = new EditText(getActivity());
-//                    editText.setId(R.id.movies); //Set id to remove in the future.
-//                    editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT));
-//
-//                    for (ParseObject p : parseObjects) {
-//                        text = (String) p.get("interests");
-//                        editText.setText(text);
-//                    }
-//                    if(text.isEmpty()){
-//                        editText.setText("Select a programming languages else I will return NullPointerException");
-//                    }else{
-//                        editText.setText("Porgramming Languages: " + text);
-//                    }
-//                } else {
-//                    Toast.makeText(getActivity().getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
+        query.whereEqualTo("username", username);
 
-        EditText editText = new EditText(getActivity());
-        editText.setId(R.id.movies); //Set id to remove in the future.
-        editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        editText.setText("Hello dfjehfuefkuwifkwekfiwfkjhdhjsd jsdfhysdjf fsdujhsfn dshfhuisfd hsdbfjhbsd");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                if (e == null) {
+                    String text = "";
+                    String m = "Select favorite programming language or I will return NullPointerException";
 
-        try{
-            linearLayout.addView(editText);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+                    EditText editText = new EditText(getActivity());
+                    editText.setId(R.id.prog_lang); //Set id to remove in the future.
+                    editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
 
+                    for (ParseObject p : parseObjects) {
+                        text = (String) p.get("interests");
+                    }
+
+                    try {
+                        JSONObject json_text = new JSONObject(text);
+                        if(json_text.has("prog-lang")) {
+                            m = "Programming Languages:\n";
+                            JSONObject prog_lang = json_text.getJSONObject("prog-lang");
+
+                            if(prog_lang.has("c")){
+                                m += "-C/C++/C#/C-anything\n";
+                            }
+                            if(prog_lang.has("java")){
+                                m+= "-Java\n";
+                            }
+                            if(prog_lang.has("web-dev")){
+                                m+= "-Web Dev\n";
+                            }
+
+                            if(prog_lang.has("what-is-that")){
+                                m+= "-What is that??\n";
+                            }
+
+                            editText.setText(m);
+                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+
+                    TextView textFragmProgLang = (TextView) getActivity().findViewById(R.id.textFragmProgLang);
+                    textFragmProgLang.setText(m);
+                    editText.setText(m);
+
+                    try{
+                        linearLayout.addView(editText);
+                        getActivity().addContentView(linearLayout, new
+                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Could not retrieve interests", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Inflate the layout for this fragment with the programatically added layout
+        // with the appropiate content
+        View v = inflater.inflate(R.layout.fragment_programming_languages, linearLayout);
         return v;
     }
 

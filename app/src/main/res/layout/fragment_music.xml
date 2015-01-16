@@ -2,7 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.app.md_hw.InterestsFragments.MusicFragment">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="WHY YOU NO LIKE MUSIC?" />
+    <TextView
+        android:layout_width="124dp"
+        android:layout_height="82dp"
+        android:id="@+id/textFragmMusic"
+        android:layout_gravity="left|top" />
+
 
 </FrameLayout>
