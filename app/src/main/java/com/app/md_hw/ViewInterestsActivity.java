@@ -34,6 +34,8 @@ public class ViewInterestsActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // opened up a fragment transaction
+        // to add to it all the fragment layouts for each interest
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

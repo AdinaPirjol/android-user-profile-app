@@ -91,7 +91,7 @@ public class ProgrammingLanguagesFragment extends Fragment {
                     String text = "";
                     String m = "Select favorite programming language or I will return NullPointerException";
 
-                    EditText editText = new EditText(getActivity());
+                    TextView editText = new TextView(getActivity());
                     editText.setId(R.id.prog_lang); //Set id to remove in the future.
                     editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));

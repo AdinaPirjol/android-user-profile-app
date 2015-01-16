@@ -92,7 +92,7 @@ public class MusicFragment extends Fragment {
                     String text = "";
                     String m = "WHY YOU NO LIKE MUSIC?";
 
-                    EditText editText = new EditText(getActivity());
+                    TextView editText = new TextView(getActivity());
                     editText.setId(R.id.music); //Set id to remove in the future.
                     editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));

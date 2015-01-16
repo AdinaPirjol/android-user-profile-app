@@ -81,9 +81,11 @@ public class MoviesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final LinearLayout linearLayout = new LinearLayout(getActivity());
 
+        // get the current used
         ParseUser user = ParseUser.getCurrentUser();
         String username = user.getUsername();
 
+        // queries the parse db for current users interests
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Interests");
         query.whereEqualTo("username", username);
 
@@ -94,7 +96,8 @@ public class MoviesFragment extends Fragment {
                     String text = "";
                     String m = "WHY YOU NO LIKE MOVIES?";
 
-                    EditText editText = new EditText(getActivity());
+                    // create a new programatical TextView
+                    TextView editText = new TextView(getActivity());
                     editText.setId(R.id.movies); //Set id to remove in the future.
                     editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -103,6 +106,8 @@ public class MoviesFragment extends Fragment {
                         text = (String) p.get("interests");
                     }
 
+                    // extract only movies interests and display them in a "list"
+                    // by parsing the json
                     try {
                         JSONObject json_text = new JSONObject(text);
                         if(json_text.has("movies")) {
@@ -129,6 +134,7 @@ public class MoviesFragment extends Fragment {
                     editText.setText(m);
 
                     try{
+                        // add the textview to the layout and set the layouts params
                         linearLayout.addView(editText);
                         getActivity().addContentView(linearLayout, new
                                 LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
