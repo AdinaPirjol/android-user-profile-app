@@ -127,8 +127,8 @@ public class ProgrammingLanguagesFragment extends Fragment {
                     }
 
 
-                    TextView textFragmProgLang = (TextView) getActivity().findViewById(R.id.textFragmProgLang);
-                    textFragmProgLang.setText(m);
+                    TextView fragmProgLang = (TextView) getActivity().findViewById(R.id.textFragmProgLang);
+                    fragmProgLang.setText(m);
                     editText.setText(m);
 
                     try{

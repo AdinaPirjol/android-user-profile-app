@@ -105,7 +105,7 @@ public class MusicFragment extends Fragment {
                         JSONObject json_text = new JSONObject(text);
                         if(json_text.has("music")) {
                             m = "Music:\n";
-                            JSONObject music = json_text.getJSONObject("movies");
+                            JSONObject music = json_text.getJSONObject("music");
 
                             if(music.has("hard-rock")){
                                 m += "-Hard rock\n";
@@ -122,8 +122,8 @@ public class MusicFragment extends Fragment {
                     }
 
 
-                    TextView fragmMovies = (TextView) getActivity().findViewById(R.id.textFragmMusic);
-                    fragmMovies.setText(m);
+                    TextView fragmMusic = (TextView) getActivity().findViewById(R.id.textFragmMusic);
+                    fragmMusic.setText(m);
                     editText.setText(m);
 
                     try{
